@@ -100,4 +100,4 @@ plt.savefig('dqn_training_results.png')
 plt.show()
 env.close()
 
-torch.save(agent.q_network.state_dict(), '/models/dqn_lunarlander.pth')
+torch.save(agent.q_network.state_dict(), '/Users/moghityebari/Desktop/Personal_projects/RL_Agent/RL-Agent/models/dqn_lunarlander.pth')
