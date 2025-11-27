@@ -16,7 +16,7 @@ class DQNAgent:
                  epsilon_start = 1.0,
                  epsilon_end = 0.01,
                  epsilon_decay = 0.98,
-                 buffer_size = 100000,
+                 buffer_size = 200000,
                  lr_min=1e-6, 
                  batch_size = 256,
                  target_update_freq = 10,
@@ -60,8 +60,7 @@ class DQNAgent:
         
         if len(self.replay_buffer) < self.batch_size:
             return None
-        '''if self.replay_buffer.buffer:
-            print("Range: ",min(self.replay_buffer.buffer),max(self.replay_buffer.buffer))'''
+
         states, actions, rewards,next_states, dones = self.replay_buffer.sample(self.batch_size)
         
         states = torch.FloatTensor(states).to(device)
