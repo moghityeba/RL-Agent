@@ -38,7 +38,7 @@ Our implementation explores the theoretical and empirical trade-offs between the
 
 ## Environment
 
-**LunarLander-v2** is a classic control task from OpenAI Gym where an agent must safely land a lunar module on a landing pad.
+**LunarLander-v3** is a classic control task from OpenAI Gym where an agent must safely land a lunar module on a landing pad.
 
 **State Space** (8-dimensional continuous):
 * Position (x, y)
@@ -113,7 +113,10 @@ where:
 
 **Network Architecture**:
 ```
-Input (8) → Dense(128, ReLU) → Dense(128, ReLU) → Dense(4)
+* Input layer: 8 → 128 (state dimension to hidden)
+* Hidden layer: 128 → 128 with ReLU activation
+* Output layer: 128 → 4 (Q-values for each action)
+* Simple feedforward design for value approximation
 ```
 
 **Hyperparameters**:
@@ -138,9 +141,13 @@ Input (8) → Dense(128, ReLU) → Dense(128, ReLU) → Dense(4)
 
 **Actor-Critic Architecture**:
 ```
-Shared trunk: Input (8) → Dense(128, ReLU) → Dense(128, ReLU)
-Actor head:   → Dense(4, Softmax)
-Critic head:  → Dense(1)
+* **Separate actor and critic networks** (no shared layers)
+* Actor: 8 → 64 → 64 → 4 (outputs action logits)
+* Critic: 8 → 64 → 64 → 1 (outputs state value)
+* **Layer Normalization** after each hidden layer for training stability
+* **Tanh activation** (smoother gradients than ReLU for policy optimization)
+* **Orthogonal initialization** (Engstrom et al., 2020) for faster convergence
+* Categorical distribution over discrete actions
 ```
 
 **Hyperparameters**:

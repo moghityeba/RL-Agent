@@ -1,0 +1,24 @@
+# config_lunarlander_optimized.yaml
+exp_name: "LunarLander_PPO_Optimized"
+model_name: "LunarLander"
+type: "simple"
+seed: 40
+cuda: true
+
+# ========== TRAINING ==========
+total_timesteps: 1000000        
+learning_rate: 0.0003           
+# ========== ROLLOUT ==========
+num_steps: 2048                 
+n_envs: 8                      
+gamma: 0.99                     
+gae_lambda: 0.95                
+# ========== PPO UPDATE ==========
+num_minibatches: 32             
+n_epochs: 10                    
+epsilon_clip: 0.2               
+
+# ========== LOSS COEFFICIENTS ==========
+value_coef: 0.5                 
+entropy_coef: 0.01             
+
