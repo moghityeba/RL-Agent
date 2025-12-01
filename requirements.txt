@@ -1,8 +1,5 @@
-gymnasium[atari]
-gymnasium[accept-rom-license]
-ale-py
-swig
-gymnasium[box2d]
+gymnasium
+matplotlib
 numpy
 stable_baselines3
 tqdm
