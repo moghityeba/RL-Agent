@@ -196,7 +196,7 @@ All experiments run for **1M timesteps** with 3 random seeds. Evaluation perform
 ### Installation
 ```bash
 # Create conda environment
-conda create -n lunar-rl python=3.11
+conda create -n lunar-rl python=3.9
 conda activate lunar-rl
 
 # Install dependencies
