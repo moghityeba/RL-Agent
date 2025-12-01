@@ -206,25 +206,25 @@ pip install -r requirements.txt
 
 ### When to Use DQN?
 
-✅ **Discrete action spaces**  
-✅ **Off-policy learning required** (learn from demonstrations)  
-✅ **High replay ratio desired** (maximize data reuse)
+**Discrete action spaces**  
+**Off-policy learning required** (learn from demonstrations)  
+**High replay ratio desired** (maximize data reuse)
 
-❌ Continuous actions (requires modifications)  
-❌ Need for fast convergence  
-❌ Limited hyperparameter tuning budget
+Continuous actions (requires modifications)  
+Need for fast convergence  
+Limited hyperparameter tuning budget
 
 ---
 
 ### When to Use PPO?
 
-✅ **Continuous OR discrete actions**  
-✅ **Need stability and robustness**  
-✅ **Quick prototyping** (works out-of-the-box)  
-✅ **Stochastic policies beneficial**
+**Continuous OR discrete actions**  
+**Need stability and robustness**  
+**Quick prototyping** (works out-of-the-box)  
+**Stochastic policies beneficial**
 
-❌ Sample efficiency absolutely critical  
-❌ Cannot collect rollouts in parallel
+Sample efficiency absolutely critical  
+Cannot collect rollouts in parallel
 
 ---
 
