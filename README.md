@@ -2,8 +2,8 @@
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg"/></a>
-  <img src="https://img.shields.io/badge/Python-3.11-blue.svg"/>
-  <img src="https://img.shields.io/badge/Gym-LunarLander‑v2-purple"/>
+  <img src="https://img.shields.io/badge/Python-3.9-blue.svg"/>
+  <img src="https://img.shields.io/badge/Gym-LunarLander‑v3-purple"/>
 </p>
 
 ---
@@ -21,18 +21,6 @@ Our implementation explores the theoretical and empirical trade-offs between the
 <p align="center">
   <img src="assets/images/lunarlander_demo.gif" alt="LunarLander environment" width="40%">
 </p>
-
----
-
-## 📑 Table of Contents
-
-1. [Environment](#environment)
-2. [Theoretical Background](#theoretical-background)
-3. [Methodology](#methodology)
-4. [Experiments & Results](#experiments--results)
-5. [Quick Start](#quick-start)
-6. [Analysis & Insights](#analysis--insights)
-7. [References](#references)
 
 ---
 
