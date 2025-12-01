@@ -83,9 +83,6 @@ $$L(\theta) = \mathbb{E}_{(s,a,r,s') \sim \mathcal{D}} \left[ \left( r + \gamma 
 * **Target Network** $\theta^-$: Stabilize learning by fixing targets for C steps
 * **ε-greedy exploration**: Balance exploration/exploitation
 
-<p align="center">
-  <img src="assets/images/dqn_architecture.png" alt="DQN architecture" width="45%">
-</p>
 
 ---
 
@@ -107,9 +104,6 @@ where:
 * **Multiple epochs**: Reuse collected data K times (sample efficiency)
 * **Entropy bonus**: Encourage exploration via $-\beta \mathcal{H}(\pi)$
 
-<p align="center">
-  <img src="assets/images/ppo_clip.png" alt="PPO clipping mechanism" width="45%">
-</p>
 
 ---
 
@@ -181,9 +175,7 @@ All experiments run for **1M timesteps** with 3 random seeds. Evaluation perform
 | **DQN**   | ~450k | ~700k | <img src="results/DQN_training_results.png" alt="DQN training curve" width="45%"/> |
 | **PPO**   | **~300k** | **~500k** | <img src="results/PPO_training_results.png" alt="PPO training curve" width="45%"/> |
 
-<p align="center">
-  <img src="assets/images/convergence_comparison.png" alt="Training curves comparison" width="60%">
-</p>
+
 
 **Key Observations**:
 * PPO reaches success threshold ~33% faster
