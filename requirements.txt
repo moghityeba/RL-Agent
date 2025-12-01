@@ -4,3 +4,7 @@ ale-py
 swig
 gymnasium[box2d]
 numpy
+stable_baselines3
+tqdm
+tensorboard
+PyYAML

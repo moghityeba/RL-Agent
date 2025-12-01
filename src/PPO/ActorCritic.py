@@ -5,28 +5,45 @@ from torch.distributions import Categorical
 
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
+def layer_init(layer: nn.Module, std: float = np.sqrt(2), bias_const: float = 0.0) -> nn.Module:
+    """
+    Initialize a given layer using orthogonal initialization for the weights
+    and constant initialization for the biases.
+
+    Args:
+        layer (nn.Module): The neural network layer to initialize.
+        std (float): The standard deviation (gain) for orthogonal initialization. 
+                               Default is np.sqrt(2).
+        bias_const (float): The constant value to initialize biases. Default is 0.0.
+
+    Returns:
+        nn.Module: The initialized layer.
+    """
+    torch.nn.init.orthogonal_(layer.weight, std)
+    torch.nn.init.constant_(layer.bias, bias_const)
+    return layer
+
+
 class ActorCritic(nn.Module):
-    def __init__(self, state_dim, action_dim, hidden_dim = 64):
+    def __init__(self, state_dim, action_dim, hidden_dim=64):
         super().__init__()
         
-        self.actor = nn.Sequential(
-            nn.Linear(state_dim, hidden_dim),
-            nn.Tanh(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.Tanh(),
-            nn.Linear(hidden_dim, action_dim),
-            nn.Softmax(dim=-1)
-        )
+        # Actor with separate layers for more flexibility
+        self.actor_fc1 = nn.Linear(state_dim, hidden_dim)
+        self.actor_ln1 = nn.LayerNorm(hidden_dim)
+        self.actor_fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.actor_ln2 = nn.LayerNorm(hidden_dim)
+        self.actor_out = nn.Linear(hidden_dim, action_dim)
         
-        self.critic = nn.Sequential(
-            nn.Linear(state_dim, hidden_dim),
-            nn.Tanh(),
-            nn.Linear(hidden_dim, hidden_dim),
-            nn.Tanh(),
-            nn.Linear(hidden_dim, 1)
-        )
+        # Critic
+        self.critic_fc1 = nn.Linear(state_dim, hidden_dim)
+        self.critic_ln1 = nn.LayerNorm(hidden_dim)
+        self.critic_fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.critic_ln2 = nn.LayerNorm(hidden_dim)
+        self.critic_out = nn.Linear(hidden_dim, 1)
         
-        # Initialisation orthogonale (meilleure pour RL)
+        self.activation = nn.Tanh()
+        
         self.apply(self._init_weights)
         
     def _init_weights(self, module):
@@ -35,31 +52,33 @@ class ActorCritic(nn.Module):
             nn.init.constant_(module.bias, 0.0)
             
     def forward(self, state):
-        """Retourne (action_probs, state_value)"""
-        action_probs = self.actor(state)
-        state_value = self.critic(state)
-        return action_probs, state_value
+        # Actor
+        x = self.actor_fc1(state)
+        x = self.actor_ln1(x)
+        x = self.activation(x)
+        x = self.actor_fc2(x)
+        x = self.actor_ln2(x)
+        x = self.activation(x)
+        action_logits = self.actor_out(x)
+        
+        # Critic
+        v = self.critic_fc1(state)
+        v = self.critic_ln1(v)
+        v = self.activation(v)
+        v = self.critic_fc2(v)
+        v = self.critic_ln2(v)
+        v = self.activation(v)
+        state_value = self.critic_out(v)
+        
+        action_distribution = Categorical(logits=action_logits)
+        
+        return action_distribution, state_value
     
-    def get_action(self, state):
-        """Sélectionner une action selon la politique"""
-        state = torch.FloatTensor(state).unsqueeze(0).to(device)
-        
-        with torch.no_grad():
-            action_probs, _ = self.forward(state)
-        
-        # Échantillonner une action
-        dist = Categorical(action_probs)
-        action = dist.sample()
-        action_log_prob = dist.log_prob(action)
-        
-        return action.item(), action_log_prob.item()
-    
-    def evaluate(self, states, actions):
-        """Évaluer les actions (pour l'update)"""
-        action_probs, state_values = self.forward(states)
-        
-        dist = Categorical(action_probs)
-        action_log_probs = dist.log_prob(actions)
-        dist_entropy = dist.entropy()
-        
-        return action_log_probs, state_values.squeeze(), dist_entropy
+    def save(self, path: str) -> None:
+        """
+        Save the model state dictionary to a file.
+
+        Args:
+            path (str): The path where the state dictionary should be saved.
+        """
+        torch.save(self.state_dict(), path)
