@@ -2,6 +2,7 @@ import numpy as np
 from collections import deque
 import random
 
+
 class ReplayBuffer:
     def __init__(self,capacity = 100000):
         self.buffer = deque(maxlen = capacity)

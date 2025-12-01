@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 num_episodes = 500
 max_steps = 1000
 env = gym.make("LunarLander-v3")

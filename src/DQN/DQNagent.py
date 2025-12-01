@@ -7,6 +7,7 @@ import torch.nn as nn
 
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
+
 class DQNAgent:
     def __init__(self,
                  state_dim,
