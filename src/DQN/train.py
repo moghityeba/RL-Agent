@@ -67,7 +67,7 @@ for episode in range(num_episodes):
         
     # Critère de succès (LunarLander est résolu avec reward >= 200)
     if len(episode_rewards) >= 100 and np.mean(episode_rewards[-100:]) >= 200:
-        print(f"\n✅ Environnement résolu en {episode + 1} épisodes!")
+        print(f"\nEnvironnement résolu en {episode + 1} épisodes!")
         break
     
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 5))
