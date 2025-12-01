@@ -71,7 +71,8 @@ DQN approximates the optimal action-value function Q*(s,a) using a deep neural n
 
 **Bellman Optimality Equation**:
 
-$$Q^*(s,a) = \mathbb{E}[r + \gamma \max_{a'} Q^*(s', a') | s, a]$$
+Q^{*}(s,a) = \mathbb{E}\Big[r + \gamma \max_{a'} Q^{*}(s', a') \,\Big|\, s, a \Big]
+
 
 **Loss Function**:
 
@@ -177,8 +178,8 @@ All experiments run for **1M timesteps** with 3 random seeds. Evaluation perform
 
 | Algorithm | Steps to 200 | Steps to Optimal (>240) | Figure |
 |-----------|-------------:|------------------------:|:------:|
-| **DQN**   | ~450k | ~700k | <img src="assets/images/dqn_training.png" alt="DQN training curve" width="45%"/> |
-| **PPO**   | **~300k** | **~500k** | <img src="assets/images/ppo_training.png" alt="PPO training curve" width="45%"/> |
+| **DQN**   | ~450k | ~700k | <img src="results/DQN_training_results.png" alt="DQN training curve" width="45%"/> |
+| **PPO**   | **~300k** | **~500k** | <img src="results/PPO_training_results.png" alt="PPO training curve" width="45%"/> |
 
 <p align="center">
   <img src="assets/images/convergence_comparison.png" alt="Training curves comparison" width="60%">
@@ -190,42 +191,6 @@ All experiments run for **1M timesteps** with 3 random seeds. Evaluation perform
 * PPO exhibits smoother, more monotonic improvement
 
 ---
-
-### Sample Efficiency
-
-| Metric | DQN | PPO |
-|--------|----:|----:|
-| Timesteps to success | 450k | **300k** |
-| Final performance | 248 ± 12 | **256 ± 8** |
-| Training stability (σ) | 45.2 | **28.7** |
-
-<p align="center">
-  <img src="assets/images/sample_efficiency.png" alt="Sample efficiency comparison" width="50%">
-</p>
-
-_Key takeaway_: PPO achieves superior sample efficiency due to multi-epoch updates and advantage normalization.
-
----
-
-### Training Stability
-
-<p align="center">
-  <img src="assets/images/stability_comparison.png" alt="Training stability" width="50%">
-</p>
-
-**Standard deviation of returns (across 3 seeds)**:
-* DQN: σ = 45.2
-* PPO: σ = **28.7**
-
-PPO's clipping mechanism prevents catastrophic policy updates, leading to more consistent training dynamics.
-
----
-
-### Hyperparameter Sensitivity
-
-<p align="center">
-  <img src="assets/images/hyperparam_sensitivity.png" alt="Hyperparameter sensitivity" width="70%">
-</p>
 
 **DQN sensitive to**:
 * Target network update frequency
@@ -250,49 +215,6 @@ conda activate lunar-rl
 # Install dependencies
 pip install -r requirements.txt
 ```
-
-### Training
-
-**Train DQN**:
-```bash
-python train_dqn.py \
-  --env LunarLander-v2 \
-  --total-timesteps 1000000 \
-  --buffer-size 100000 \
-  --learning-rate 5e-4 \
-  --seed 42
-```
-
-**Train PPO**:
-```bash
-python train_ppo.py \
-  --env LunarLander-v2 \
-  
-  --total-timesteps 1000000 \
-  --n-steps 2048 \
-  --learning-rate 3e-4 \
-  --seed 42
-```
-
-### Evaluation
-```bash
-# Evaluate trained model
-python evaluate.py \
-  --model-path checkpoints/ppo_best.pt \
-  --n-episodes 100 \
-  --render
-```
-
-### Reproduce All Results
-```bash
-# Run complete experimental suite
-bash scripts/run_all_experiments.sh
-
-# Generate comparison plots
-python scripts/plot_results.py
-```
-
----
 
 ## Analysis & Insights
 
@@ -324,88 +246,12 @@ python scripts/plot_results.py
 
 1. **PPO dominates for LunarLander**: Faster convergence, better stability, less tuning required
 2. **DQN competitive but harder**: Requires careful hyperparameter selection
-3. **Sample efficiency**: PPO's multi-epoch updates beat DQN's single-sample approach
-4. **Variance reduction matters**: GAE + value baseline crucial for PPO's performance
-5. **Target networks essential**: DQN unstable without them
+3. **Variance reduction matters**: GAE + value baseline crucial for PPO's performance
+4. **Target networks essential**: DQN unstable without them
 
----
-
-## Project Structure
-```
-.
-├── agents/
-│   ├── dqn.py              # DQN implementation
-│   ├── ppo.py              # PPO implementation
-│   └── networks.py         # Neural network architectures
-├── utils/
-│   ├── replay_buffer.py    # Experience replay for DQN
-│   ├── gae.py              # GAE computation for PPO
-│   └── logger.py           # Training metrics logging
-├── scripts/
-│   ├── run_all_experiments.sh
-│   └── plot_results.py
-├── train_dqn.py            # DQN training script
-├── train_ppo.py            # PPO training script
-├── evaluate.py             # Model evaluation
-└── requirements.txt
-```
-
----
-
-## Report & Poster
-
-For the full theoretical background, implementation details, and extended results, see:
-
-| Resource | Link |
-|----------|------|
-| 📑 **Project Report (PDF)** | [assets/report/report.pdf](assets/report/report.pdf) |
-| 🖼️ **Summary Poster** | [assets/poster/poster.png](assets/poster/poster.png) |
-
----
-
-## References
-
-1. **Volodymyr Mnih**, Koray Kavukcuoglu, David Silver, et al.  
-   *Human-level control through deep reinforcement learning.*  
-   Nature 518, 529–533 (2015).
-
-2. **John Schulman**, Filip Wolski, Prafulla Dhariwal, Alec Radford, Oleg Klimov.  
-   *Proximal Policy Optimization Algorithms.*  
-   arXiv:1707.06347 (2017).
-
-3. **Greg Brockman**, Vicki Cheung, Ludwig Pettersson, et al.  
-   *OpenAI Gym.*  
-   arXiv:1606.01540 (2016).
-
-4. **Richard S. Sutton**, **Andrew G. Barto**.  
-   *Reinforcement Learning: An Introduction (2nd ed.).*  
-   MIT Press (2018).
-
----
-
-## Citation
-
-If you use this code in your research, please cite:
-```bibtex
-@misc{lunarlander-dqn-ppo,
-  author = {Zaid LK},
-  title = {Deep RL Showdown: DQN vs PPO on LunarLander},
-  year = {2025},
-  publisher = {GitHub},
-  url = {https://github.com/yourusername/lunarlander-dqn-ppo}
-}
-```
-
----
-
-## License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
-
----
 
 ## Acknowledgments
 
-* OpenAI Gym for the LunarLander-v2 environment
+* OpenAI Gym for the LunarLander-v3 environment
 * Stable-Baselines3 for reference implementations
 * The Deep RL community for valuable discussions
