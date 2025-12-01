@@ -14,7 +14,6 @@ This project provides a **comprehensive comparison** between two fundamental Dee
 
 * **DQN (Deep Q-Network)**: Value-based approach with experience replay and target networks
 * **PPO (Proximal Policy Optimization)**: Policy gradient method with clipped surrogate objective
-* **Empirical analysis** of convergence speed, sample efficiency, stability, and hyperparameter sensitivity
 
 Our implementation explores the theoretical and empirical trade-offs between these approaches, providing insights into when to use each algorithm.
 
