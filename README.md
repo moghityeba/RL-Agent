@@ -129,12 +129,12 @@ where:
 
 **Actor-Critic Architecture**:
 ```
-* **Separate actor and critic networks** (no shared layers)
+* Separate actor and critic networks** (no shared layers)
 * Actor: 8 → 64 → 64 → 4 (outputs action logits)
 * Critic: 8 → 64 → 64 → 1 (outputs state value)
-* **Layer Normalization** after each hidden layer for training stability
-* **Tanh activation** (smoother gradients than ReLU for policy optimization)
-* **Orthogonal initialization** (Engstrom et al., 2020) for faster convergence
+* Layer Normalization** after each hidden layer for training stability
+* Tanh activation** (smoother gradients than ReLU for policy optimization)
+* Orthogonal initialization** (Engstrom et al., 2020) for faster convergence
 * Categorical distribution over discrete actions
 ```
 
