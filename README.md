@@ -210,9 +210,6 @@ pip install -r requirements.txt
 **Off-policy learning required** (learn from demonstrations)  
 **High replay ratio desired** (maximize data reuse)
 
-Continuous actions (requires modifications)  
-Need for fast convergence  
-Limited hyperparameter tuning budget
 
 ---
 
@@ -223,8 +220,6 @@ Limited hyperparameter tuning budget
 **Quick prototyping** (works out-of-the-box)  
 **Stochastic policies beneficial**
 
-Sample efficiency absolutely critical  
-Cannot collect rollouts in parallel
 
 ---
 
