@@ -164,10 +164,10 @@ All experiments run for **1M timesteps** with 3 random seeds. Evaluation perform
 
 ### Convergence Speed
 
-| Algorithm | Steps to 200 | Steps to Optimal (>240) | Figure |
-|-----------|-------------:|------------------------:|:------:|
-| **DQN**   | ~450k | ~700k | <img src="results/DQN_training_results.png" alt="DQN training curve" width="45%"/> |
-| **PPO**   | **~300k** | **~500k** | <img src="results/PPO_training_results.png" alt="PPO training curve" width="45%"/> |
+| Algorithm | Steps to 200 | Figure |
+|-----------|-------------:|:------:|
+| **DQN**   | ~50k | <img src="results/DQN_training_results.png" alt="DQN training curve" width="45%"/> |
+| **PPO**   | **~300k**| <img src="results/PPO_training_results.png" alt="PPO training curve" width="45%"/> |
 
 
 
