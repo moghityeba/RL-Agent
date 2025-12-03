@@ -166,13 +166,12 @@ All experiments run for **1M timesteps** with 3 random seeds. Evaluation perform
 
 | Algorithm | Steps to 200 | Figure |
 |-----------|-------------:|:------:|
-| **DQN**   | ~50k | <img src="results/DQN_training_results.png" alt="DQN training curve" width="45%"/> |
+| **DQN**   | **~50k** | <img src="results/DQN_training_results.png" alt="DQN training curve" width="45%"/> |
 | **PPO**   | **~300k**| <img src="results/PPO_training_results.png" alt="PPO training curve" width="45%"/> |
 
 
 
 **Key Observations**:
-* PPO reaches success threshold ~33% faster
 * DQN shows more variance early in training
 * PPO exhibits smoother, more monotonic improvement
 
